@@ -5,6 +5,7 @@
 #define WINCOMPAT_H
 #ifdef _WIN32
 
+#pragma warning(disable:4996) /* TODO: reimplement '_fdopen' for MSVC */
 //#define _CRT_SECURE_NO_WARNINGS /* TODO: use secure implementation 'strcpy' to 'strcpy_s' */
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -43,7 +44,7 @@ typedef int mode_t;
     if (copy) { memcpy(copy, s, len); }
     return copy;
   }
-  #define strcup custom_strdup
+  #define strdup custom_strdup
 #endif /* _MSC_VER xor CUSTOM_STRDUP */
 
 /* --------- posix functions reimplementations --------- */
