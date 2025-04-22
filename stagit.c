@@ -1,16 +1,20 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <err.h>
+#ifdef _WIN32
+  #include "wincompat.h"
+#else
+  #include <err.h>
+  #include <libgen.h>
+  #include <unistd.h>
+#endif
 #include <errno.h>
-#include <libgen.h>
 #include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 
 #include <git2.h>
 
@@ -673,9 +677,9 @@ printshowfile(FILE *fp, struct commitinfo *ci)
 		total = sizeof(linestr) - 2;
 		if (changed > total) {
 			if (add)
-				add = ((float)total / changed * add) + 1;
+				add = (size_t)(((float)total / changed * add) + 1);
 			if (del)
-				del = ((float)total / changed * del) + 1;
+				del = (size_t)(((float)total / changed * del) + 1);
 		}
 		memset(&linestr, '+', add);
 		memset(&linestr[add], '-', del);

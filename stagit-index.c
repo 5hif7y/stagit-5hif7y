@@ -1,10 +1,14 @@
-#include <err.h>
+#ifdef _WIN32
+  #include "wincompat.h"
+#else
+  #include <err.h>
+  #include <unistd.h>
+#endif
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
 
 #include <git2.h>
 
