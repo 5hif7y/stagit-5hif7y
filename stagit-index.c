@@ -233,6 +233,8 @@ main(int argc, char *argv[])
 			checkfileerror(fp, "description", 'r');
 			fclose(fp);
 		}
+    if (description[0] == '\0' || strcmp(description, "Unnamed repository; edit this file 'description' to name the repository.\n") == 0)
+      fprintf(stderr, "Warning: repository '%s' has no valid description.\n", repodir);
 
 		/* read owner or .git/owner */
 		joinpath(path, sizeof(path), repodir, "owner");
@@ -248,6 +250,9 @@ main(int argc, char *argv[])
 			fclose(fp);
 			owner[strcspn(owner, "\n")] = '\0';
 		}
+    if (owner[0] == '\0')
+      fprintf(stderr, "Warning: repository '%s' has no owner set.\n", repodir);
+
 		writelog(stdout);
 	}
 	writefooter(stdout);
